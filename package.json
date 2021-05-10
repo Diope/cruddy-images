@@ -1,0 +1,12 @@
+{
+  "name": "cruddy-images",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Diope/cruddy-images.git",
+  "author": "Dion Pettaway <dionp@fullsail.edu>",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "2.904.0",
+    "serverless-iam-roles-per-function": "3.1.0"
+  }
+}
