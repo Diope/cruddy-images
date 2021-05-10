@@ -1,0 +1,67 @@
+service: file-upload-api
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  apiName: ${self:service} # neat
+  timeout: 15
+  memorySize: 128
+  environment:
+    FILE_UPLOAD_BUCKET_NAME: ${self:custom.fileBucketName}
+
+custom:
+  fileBucketName: s3-cruddy-image-bucket-${self:provider.stage}
+
+plugins:
+  - serverless-iam-roles-per-functions
+
+functions:
+  s3CruddyFileUploader:
+    handler: src/upload.handler
+    name: s3-file-uploader
+    description: "Endpoint for uploading files to the S3 bucket"
+    events:
+      - http:
+          path: file
+          method: POST
+    iamRoleStatements:
+      - Effect: Allow 
+        Action:
+          - "s3:PutObject"
+        Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
+  s3CruddyFileGet:
+    handler: src/get.handler
+    name: s3-file-get
+    description: "Endpoint for retrieving files from the S3 bucket"
+    events:
+      - http:
+          path: file/{fileKey}
+          method: GET
+    iamRoleStatements:
+      - Effect: Allow 
+        Action:
+          - "s3:GetObject"
+        Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
+  s3CruddyFileDelete:
+    handler: src/delete.handler
+    name: s3-file-delete
+    description: "Endpoint for deleting files in the S3 bucket"
+    events:
+      - http:
+          path: file/{fileKey}
+          method: DELETE
+    iamRoleStatements:
+      - Effect: Allow 
+        Action:
+          - "s3:DeleteObject"
+        Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
+
+resources: # Just like Terraform.
+  Resources:
+    FileBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.fileBucketName}
+        AccessControl: Private
