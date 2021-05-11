@@ -15,7 +15,7 @@ custom:
   fileBucketName: s3-cruddy-image-bucket-${self:provider.stage}
 
 plugins:
-  - serverless-iam-roles-per-functions
+  - serverless-iam-roles-per-function
 
 functions:
   s3CruddyFileUploader:
