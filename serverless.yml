@@ -9,7 +9,7 @@ provider:
   timeout: 15
   memorySize: 128
   environment:
-    FILE_UPLOAD_BUCKET_NAME: ${self:custom.fileBucketName}
+    FILE_UPLOAD_BUCKET_NAME: ${self:custom.fileBucketName} # used in the process.env.
 
 custom:
   fileBucketName: s3-cruddy-image-bucket-${self:provider.stage}
