@@ -11,17 +11,17 @@ provider:
   environment:
     FILE_UPLOAD_BUCKET_NAME: ${self:custom.fileBucketName} # used in the process.env.
 
-custom:
-  fileBucketName: s3-cruddy-image-bucket-${self:provider.stage}
-
 plugins:
   - serverless-iam-roles-per-function
+
+custom:
+  fileBucketName: s3-cruddy-image-bucket-${self:provider.stage}
 
 functions:
   s3CruddyFileUploader:
     handler: src/upload.handler
     name: s3-file-uploader
-    description: "Endpoint for uploading files to the S3 bucket"
+    description: Endpoint for uploading files to the S3 bucket
     events:
       - http:
           path: file
@@ -34,7 +34,7 @@ functions:
   s3CruddyFileGet:
     handler: src/get.handler
     name: s3-file-get
-    description: "Endpoint for retrieving files from the S3 bucket"
+    description: Endpoint for retrieving files from the S3 bucket
     events:
       - http:
           path: file/{fileKey}
@@ -42,12 +42,12 @@ functions:
     iamRoleStatements:
       - Effect: Allow 
         Action:
-          - "s3:GetObject"
+          - "s3:Get*"
         Resource: arn:aws:s3:::${self:custom.fileBucketName}/*
   s3CruddyFileDelete:
     handler: src/delete.handler
     name: s3-file-delete
-    description: "Endpoint for deleting files in the S3 bucket"
+    description: Endpoint for deleting files in the S3 bucket
     events:
       - http:
           path: file/{fileKey}
