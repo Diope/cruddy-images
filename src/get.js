@@ -19,6 +19,7 @@ module.exports.handler = async (event) => {
 
         // console.log(params);
         const data = await s3.getObject(params).promise();
+        response.body = JSON.stringify({message: "Image retrieved", data})
         // console.log('data :>> ', data);
     } catch (e) {
         console.error(e);
