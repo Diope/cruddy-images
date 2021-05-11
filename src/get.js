@@ -7,7 +7,7 @@ module.exports.handler = async (event) => {
     console.log(event);
 
     const response = {
-        isBased64Encoded: false,
+        isBase64Encoded: false, // wow man...based64?
         statusCode: 200
     }
 
