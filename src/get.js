@@ -24,7 +24,7 @@ module.exports.handler = async (event) => {
     } catch (e) {
         console.error(e);
         response.body = JSON.stringify({message: "Error in retreving files.", errorMessage: e});
-        response.statusCode = 500;
+        response.statusCode = 500; 
     }
     return reponse;
     // console.log('response :>> ', response);
